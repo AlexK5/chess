@@ -26,4 +26,9 @@ public class Board {
         colors[finalRow][finalCol] = colors[initRow][initCol];
         colors[initRow][initCol] = 'n';
     }
+
+    public static void addPiece(ChessPiece piece, char color){
+        pieces[piece.getRow()][piece.getColumn()] = piece;
+        colors[piece.getRow()][piece.getColumn()] = color;
+    }
 }

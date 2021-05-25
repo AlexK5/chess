@@ -8,6 +8,7 @@ public class Bishop implements ChessPiece {
             rank = rowNum;
             file = colNum;
             color = colorChar;
+            Board.addPiece(this, color);
         }else{
             throw new Exception("ERROR: row and column numbers must be between 0 and 7 inclusive.");
         }
