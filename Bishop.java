@@ -1,9 +1,9 @@
-public class Rook implements ChessPiece{
+public class Bishop implements ChessPiece {
     private int rank = -1;
     private int file = -1;
     private char color = 'n';
 
-    public Rook(int rowNum, int colNum, char colorChar) throws Exception{
+    public Bishop(int rowNum, int colNum, char colorChar) throws Exception{
         if(rowNum >= 0 && rowNum <= 7 && colNum >= 0 && colNum <= 7){
             rank = rowNum;
             file = colNum;
@@ -22,36 +22,40 @@ public class Rook implements ChessPiece{
     }
 
     public boolean canMove(int row, int col){
-        if((rank != row && file != col) || (rank == row && file == col)){
+        if(Math.abs(rank-row) != Math.abs(file-col)){
             return(false);
         }else{
-            if(rank == row){
-                int[] between = new int[Math.abs(file-col)-1];
-                boolean left = file > col;
+            if(rank-row == file-col){
+                int[][] between = new int[Math.abs(file-col)-1][2];
+                boolean downleft = file > col;
                 for(int i = 0; i < between.length; i++){
-                    if(left){
-                        between[i] = file - i - 1;
+                    if(downleft){
+                        between[i][0] = rank - i - 1;
+                        between[i][1] = file - i - 1;
                     }else{
-                        between[i] = file + i + 1;
+                        between[i][0] = rank + i + 1;
+                        between[i][1] = file + i + 1;
                     }
                 }
-                for(int j:between){
-                    if(Board.getPiece(rank, j) != null){
+                for(int[] j:between){
+                    if(Board.getPiece(j[0], j[1]) != null){
                         return(false);
                     }
                 }
             }else{
-                int[] between = new int[Math.abs(rank-row)-1];
-                boolean down = rank > row;
+                int[][] between = new int[Math.abs(file-col)-1][2];
+                boolean upleft = file > col;
                 for(int i = 0; i < between.length; i++){
-                    if(down){
-                        between[i] = rank - i - 1;
+                    if(upleft){
+                        between[i][0] = rank + i + 1;
+                        between[i][1] = file - i - 1;
                     }else{
-                        between[i] = rank + i + 1;
+                        between[i][0] = rank - i - 1;
+                        between[i][1] = file + i + 1;
                     }
                 }
-                for(int j:between){
-                    if(Board.getPiece(j, file) != null){
+                for(int[] j:between){
+                    if(Board.getPiece(j[0], j[1]) != null){
                         return(false);
                     }
                 }
