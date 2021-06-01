@@ -1,4 +1,4 @@
-public class Bishop implements ChessPiece {
+public class Bishop implements ChessPiece { //TODO: check if king is in check
     private int rank = -1;
     private int file = -1;
     private char color = 'n';

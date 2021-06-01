@@ -35,7 +35,7 @@ public class Pawn implements ChessPiece {
         if(row - rank == forward && file == col){
             return(Board.getColor(row, col) == 'n');
         }
-        if(row - rank == 2 * forward && file == col){
+        if(row - rank == 2 * forward && file == col && ((rank == 2 && color == 'w') || (rank == 7 && color == 'b'))){
             if(Board.getColor(rank + forward, col) != 'n'){
                 return(false);
             }
