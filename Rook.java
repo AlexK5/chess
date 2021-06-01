@@ -1,75 +1,62 @@
-public class Rook implements ChessPiece{
-    private int rank = -1;
-    private int file = -1;
-    private char color = 'n';
+public class Rook extends Piece implements ChessPiece {
 
     public Rook(int rowNum, int colNum, char colorChar) throws Exception{
+        super(rowNum,colNum, colorChar);
         if(rowNum >= 0 && rowNum <= 7 && colNum >= 0 && colNum <= 7){
-            rank = rowNum;
-            file = colNum;
-            color = colorChar;
-            Board.addPiece(this, color);
+            Board.addPiece(this, getColor());
         }else{
             throw new Exception("ERROR: row and column numbers must be between 0 and 7 inclusive.");
         }
     }
 
     public int getRow(){
-        return(rank);
+        return(super.getRow());
     }
 
     public int getColumn(){
-        return(file);
+        return(super.getColumn());
+    }
+
+    public char getColor(){
+        return(super.getColor());
     }
 
     public boolean canMove(int row, int col){
-        if((rank != row && file != col) || (rank == row && file == col)){
+        if((getRow() != row && getColumn() != col) || (getRow() == row && getColumn() == col)){
             return(false);
         }else{
-            if(rank == row){
-                int[] between = new int[Math.abs(file-col)-1];
-                boolean left = file > col;
+            if(getRow() == row){
+                int[] between = new int[Math.abs(getColumn()-col)-1];
+                boolean left = getColumn() > col;
                 for(int i = 0; i < between.length; i++){
                     if(left){
-                        between[i] = file - i - 1;
+                        between[i] = getColumn() - i - 1;
                     }else{
-                        between[i] = file + i + 1;
+                        between[i] = getColumn() + i + 1;
                     }
                 }
-                for(int j:between){
-                    if(Board.getPiece(rank, j) != null){
-                        return(false);
+                for(int j:between) {
+                    if (Board.getPiece(getRow(), j) != null) {
+                        return (false);
                     }
                 }
             }else{
-                int[] between = new int[Math.abs(rank-row)-1];
-                boolean down = rank > row;
+                int[] between = new int[Math.abs(getRow()-row)-1];
+                boolean down = getRow() > row;
                 for(int i = 0; i < between.length; i++){
                     if(down){
-                        between[i] = rank - i - 1;
+                        between[i] = getRow() - i - 1;
                     }else{
-                        between[i] = rank + i + 1;
+                        between[i] = getRow() + i + 1;
                     }
                 }
                 for(int j:between){
-                    if(Board.getPiece(j, file) != null){
+                    if(Board.getPiece(j, getColumn()) != null){
                         return(false);
                     }
                 }
             }
-            return Board.getColor(row, col) != color;
-        }
-    }
-
-    public boolean canKill(ChessPiece piece){
-        return(Board.getColor(piece.getRow(),piece.getColumn()) != color && canMove(piece.getRow(),piece.getColumn()));
-    }
-
-    public void attemptMove(int row, int col){
-        if(canMove(row,col)){
-            Board.move(rank, file, row, col);
-            rank = row;
-            file = col;
+            return Board.getColor(row, col) != getColor();
         }
     }
 }

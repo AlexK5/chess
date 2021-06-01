@@ -1,49 +1,36 @@
-public class King implements ChessPiece {
-    private int rank = -1;
-    private int file = -1;
-    private char color = 'n';
+public class King extends Piece implements ChessPiece {
 
     public King(int rowNum, int colNum, char colorChar) throws Exception{
+        super(rowNum,colNum, colorChar);
         if(rowNum >= 0 && rowNum <= 7 && colNum >= 0 && colNum <= 7){
-            rank = rowNum;
-            file = colNum;
-            color = colorChar;
-            Board.addPiece(this, color);
+            Board.addPiece(this, getColor());
         }else{
             throw new Exception("ERROR: row and column numbers must be between 0 and 7 inclusive.");
         }
     }
 
     public int getRow(){
-        return(rank);
+        return(super.getRow());
     }
 
     public int getColumn(){
-        return(file);
+        return(super.getColumn());
+    }
+
+    public char getColor(){
+        return(super.getColor());
     }
 
     public boolean canMove(int row, int col){
-        if(rank == row && file == col) {
+        if(getRow() == row && getColumn() == col) {
             return (false);
         }
-        int rowDif = Math.abs(rank-row);
-        int colDif = Math.abs(file-col);
+        int rowDif = Math.abs(getRow()-row);
+        int colDif = Math.abs(getColumn()-col);
         if(rowDif + colDif > 2 || Math.abs(rowDif - colDif) > 1){
             return(false);
         }
-        return Board.getColor(row, col) != color;
-    }
-
-    public boolean canKill(ChessPiece piece){
-        return(Board.getColor(piece.getRow(),piece.getColumn()) != color && canMove(piece.getRow(),piece.getColumn()));
-    }
-
-    public void attemptMove(int row, int col){
-        if(canMove(row,col)){
-            Board.move(rank, file, row, col);
-            Board.moveKing(color, row, col);
-            rank = row;
-            file = col;
-        }
+        return Board.getColor(row, col) != getColor();
     }
 }
+
